@@ -14,6 +14,40 @@ export const authorQuery = gql`
     }
 `
 
+const POST_FRAGMENT = gql`
+    fragment PostDetails on Post {
+        title
+        slug
+        date
+        content
+        tags
+        coverImage {
+            url
+        }
+        authors {
+            name
+        }
+    }   
+`
+
+export const postsQuery = gql`
+    ${POST_FRAGMENT}
+    query GetPosts {
+        posts {
+            ...PostDetails
+        }
+    }
+`
+
+export const postQuery = gql`
+    ${POST_FRAGMENT}
+    query GetPost($slug: String!) {
+        post(where: { slug: $slug }) {
+            ...PostDetails
+        }
+    }
+`
+
 const PROJECT_FRAGMENT = gql`
     fragment ProjectDetails on Project {
         name
